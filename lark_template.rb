@@ -211,6 +211,7 @@ elsif @mocking == "mocha"
   mock_require = "require 'mocha'"
 end
 file 'test/test_helper.rb', load_pattern('test/test_helper.rb', 'default', binding)
+file 'test/factories.rb', load_pattern('test/factories.rb')
 file 'config/preinitializer.rb', load_pattern('config/preinitializer.rb')
 
 extra_notifier_test = ""
