@@ -147,14 +147,13 @@ end
 
 initializer 'admin_data.rb', load_pattern('config/initializers/admin_data.rb', 'default', binding)
 
-base64_user_name = Base64.encode64(smtp_username) unless smtp_username.blank? 
-base64_password = Base64.encode64(smtp_password) unless smtp_username.blank? 
+base64_user_name = Base64.encode64(smtp_username) unless smtp_username.blank?
+base64_password = Base64.encode64(smtp_password) unless smtp_username.blank?
 
 initializer 'mail.rb', load_pattern('config/initializers/mail.rb', 'default', binding)
 initializer 'date_time_formats.rb', load_pattern('config/initializers/date_time_formats.rb')
 initializer 'query_trace.rb', load_pattern('config/initializers/query_trace.rb')
 initializer 'backtrace_silencers.rb', load_pattern('config/initializers/backtrace_silencers.rb')
-initializer 'erubis_options.rb', load_pattern('config/initializers/erubis_options.rb')
 
 if exception_handling == "hoptoad"
   initializer 'hoptoad.rb', load_pattern('config/initializers/hoptoad.rb')
@@ -375,7 +374,7 @@ password_input_block = load_snippet('password_input_block') unless require_activ
 
 file 'app/views/users/_form.html.erb', load_pattern('app/views/users/_form.html.erb', 'default', binding)
 
-if design == "bluetrip" 
+if design == "bluetrip"
   file 'app/views/users/edit.html.erb', load_pattern('app/views/users/edit.html.erb', 'bluetrip')
 else
   file 'app/views/users/edit.html.erb', load_pattern('app/views/users/edit.html.erb')
@@ -529,3 +528,4 @@ puts '  Put real IP address and git repo URL in deployment files'
 puts '  Add app to gitosis config'
 puts "  git remote add origin git@#{capistrano_repo_host}:#{current_app_name}.git"
 puts '  git push origin master:refs/heads/master'
+
