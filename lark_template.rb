@@ -202,7 +202,6 @@ file 'config/locales/en.yml', load_pattern('config/locales/en.yml', 'default', b
 commit_state "configuration files"
 
 # testing
-file 'test/exemplars/sample_exemplar.rb', load_pattern('test/exemplars/sample_exemplar.rb')
 mock_require = ""
 mock_include = ""
 if @mocking == "rr"
@@ -239,8 +238,6 @@ file 'test/unit/user_test.rb', load_pattern('test/unit/user_test.rb', 'default',
 file 'test/shoulda_macros/authlogic.rb', load_pattern('test/shoulda_macros/authlogic.rb')
 file 'test/shoulda_macros/filter.rb', load_pattern('test/shoulda_macros/filter.rb')
 file 'test/shoulda_macros/helpers.rb', load_pattern('test/shoulda_macros/helpers.rb')
-
-file 'test/exemplars/user_exemplar.rb', load_pattern('test/exemplars/user_exemplar.rb')
 
 file 'test/unit/user_session_test.rb', load_pattern('test/unit/user_session_test.rb', 'default', binding)
 
