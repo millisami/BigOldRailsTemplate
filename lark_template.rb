@@ -39,6 +39,7 @@ commit_state "Added plugins and gems"
 # environment updates
 in_root do
   run 'cp config/environments/production.rb config/environments/staging.rb'
+  run 'cp config/environments/test.rb config/environments/cucumber.rb'
 end
 environment 'config.middleware.use "Rack::Bug"', :env => 'development'
 environment 'config.middleware.use "Rack::Bug"', :env => 'staging'
