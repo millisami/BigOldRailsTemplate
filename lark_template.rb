@@ -126,8 +126,9 @@ file 'app/views/layouts/application.html.erb', load_pattern('app/views/layouts/a
 # rakefile for use with inaction_mailer
 rakefile 'mail.rake', load_pattern('lib/tasks/mail.rake')
 # rakefile for use with annotate
-rakefile 'annotate.rake', load_pattern('lib/tasks/annotate.rake')
-
+if annotation == "anotate"
+  rakefile 'annotate.rake', load_pattern('lib/tasks/annotate.rake')
+end
 application_styles = load_snippet('application_styles', design)
 
 file 'public/stylesheets/application.css', load_pattern('public/stylesheets/application.css', 'default', binding)
@@ -466,14 +467,14 @@ end
 # databases
 rake('db:create')
 rake('db:migrate')
-rake('parallel:prepare[4]')
 commit_state "databases set up"
 
 # annotations
-run 'annotate -i -p after'
-run 'annotate -r'
-
-commit_state "annotated models and routes"
+if annotation == "annotate"
+  run 'annotate -i -p after'
+  run 'annotate -r'
+  commit_state "annotated models and routes"
+end
 
 # rakefile for metric_fu
 rakefile 'metric_fu.rake', load_pattern('lib/tasks/metric_fu.rake')
