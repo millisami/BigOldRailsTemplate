@@ -26,9 +26,9 @@ module Rails
     attr_accessor :rails_branch, :database, :exception_handling, :monitoring, :branch_management, :rails_strategy, :link_rails_root,
      :ie6_blocking, :javascript_library, :template_engine, :compass_css_framework, :design, :require_activation,
      :mocking, :smtp_address, :smtp_domain, :smtp_username, :smtp_password, :capistrano_user, :capistrano_repo_host, :capistrano_production_host,
-     :capistrano_staging_host, :exceptional_api_key, :hoptoad_api_key, :newrelic_api_key, :notifier_email_from, :default_url_options_host,        
-     :controller_type, :branches, :post_creation, :github_username, :github_token, :github_public
-  
+     :capistrano_staging_host, :exceptional_api_key, :hoptoad_api_key, :newrelic_api_key, :notifier_email_from, :default_url_options_host,
+     :controller_type, :branches, :post_creation, :github_username, :github_token, :github_public, :annotation
+
     def add_template_path(path, placement = :prepend)
       if placement == :prepend
         @template_paths.unshift path
@@ -36,7 +36,7 @@ module Rails
         @template_paths.push path
       end
     end
-    
+
     # TODO: List of attributes should be data driven
     def init_template_framework(template, root)
       @template_paths = [File.expand_path(File.dirname(template), File.join(root,'..'))]
@@ -46,7 +46,7 @@ module Rails
     def set_template_identifier(identifier)
       @template_identifier = identifier
     end
-    
+
     def load_options
       # Option set-up
       @template_options = load_template_config_file('config.yml')
@@ -113,11 +113,11 @@ module Rails
       @default_url_options_host = template_options["default_url_options_host"]
 
       @branches = template_options["git_branches"]
-    
+
       @post_creation = template_options["post_creation"]
   end
 
-# File Management 
+# File Management
     def download(from, to = from.split("/").last)
       #run "curl -s -L #{from} > #{to}"
       file to, open(from).read
@@ -125,7 +125,7 @@ module Rails
       puts "Can't get #{from} - Internet down?"
       exit!
     end
- 
+
     # grab an arbitrary file from github
     def file_from_repo(github_user, repo, sha, filename, to = filename)
       download("http://github.com/#{github_user}/#{repo}/raw/#{sha}/#{filename}", to)
@@ -169,7 +169,7 @@ module Rails
 
     # Load a snippet from a file
     def load_snippet(snippet_name, snippet_group = "default")
-      load_from_file_in_template(snippet_name, nil, snippet_group, :snippet)  
+      load_from_file_in_template(snippet_name, nil, snippet_group, :snippet)
     end
 
     # Load a pattern from a file, potentially with string interpolation
@@ -182,7 +182,7 @@ module Rails
       load_from_file_in_template(config_file_name, nil, config_file_group, :config )
     end
 
-# SCM and Branch Management 
+# SCM and Branch Management
      def commit_state(comment)
        git :add => "."
        git :commit => "-am '#{comment}'"
@@ -308,7 +308,7 @@ module Rails
         log "set up branches #{branches.keys.join(', ')}"
       end
     end
-    
+
 # Rails Management
 
     # update rails bits in application after vendoring a new copy of rails
@@ -356,7 +356,7 @@ module Rails
         clone_rails options.merge(:submodule => true)
       end
     end
-    
+
 # Mocking generators
 
     def generate_stub(object_name, method_name, return_value)
@@ -398,7 +398,7 @@ module Rails
         "stub('#{stub_name}')"
       end
     end
-  
+
 # Heroku management
 
     # Run a command with the Heroku gem.
@@ -459,7 +459,7 @@ module Rails
 
 # Gem management
     def install_gems
-      @gems = load_template_config_file('gems.yml')  
+      @gems = load_template_config_file('gems.yml')
       install_on_current(@gems)
       add_to_project(@gems)
     end
@@ -481,8 +481,8 @@ module Rails
             gem_array.push h
           end
         end
-        
-        if !gem_array.empty? 
+
+        if !gem_array.empty?
           geminstaller_hash = {"defaults"=>{"install_options"=>"--no-ri --no-rdoc"}, "gems"=> gem_array}
           in_root do
             File.open( 'geminstaller.yml', 'w' ) do |out|
@@ -492,11 +492,11 @@ module Rails
             log "installed gems on current machine"
           end
         end
-        
+
       rescue LoadError
       end
     end
-      
+
     def add_to_project(gems)
       gems.each do |name, value|
         if value[:if].nil? || eval(value[:if])
@@ -507,7 +507,7 @@ module Rails
 
 #Plugin management
     def install_plugins
-      @plugins = load_template_config_file('plugins.yml')  
+      @plugins = load_template_config_file('plugins.yml')
       @plugins.each do |name, value|
         if value[:if].nil? || eval(value[:if])
           install_plugin name, value[:options]
@@ -516,3 +516,4 @@ module Rails
     end
   end
 end
+
