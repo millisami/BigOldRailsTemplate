@@ -11,3 +11,7 @@ public/system/*
 tmp/metric_fu/*
 tmp/sent_mails/*
 .ackrc
+nbproject/*
+database.yml
+app_config.yml
+
