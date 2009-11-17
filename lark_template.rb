@@ -476,11 +476,6 @@ if annotation == "annotate"
   commit_state "annotated models and routes"
 end
 
-# rakefile for metric_fu
-rakefile 'metric_fu.rake', load_pattern('lib/tasks/metric_fu.rake')
-
-commit_state "metric_fu setup"
-
 # vendor rails if desired
 # takes the edge of whatever branch is specified in the config file
 # defaults to 2-3-stable at the moment
